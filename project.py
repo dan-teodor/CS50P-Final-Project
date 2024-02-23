@@ -50,14 +50,11 @@ def main(tick = None):
         if page =="See financial statements":
             fs_display(tick)
 
-        return str(yf.Ticker(tick).info["longName"])
-
-def     chart_lit(n):
+def chart_lit(n):
     tick = yf.Ticker(n)
     period_lit = st.slider("Period for the chart",min_value=1,max_value=10)
     chart_data = pd.DataFrame(tick.history(interval="1d",period=f"{period_lit}y"))
     st.line_chart(chart_data,y="Close")
-    return tick.info['longName']
     
 def price_delta(tick):
     request = yf.Ticker(tick)
@@ -66,7 +63,6 @@ def price_delta(tick):
     return price_delta
 
 def portfolio_display():    
-    
     ptf = pd.DataFrame(columns=("Ticker","Name","Current Price","History"))
     with open("portfolio.csv") as file:
         for line in file: 
@@ -78,13 +74,10 @@ def portfolio_display():
     if st.button("Clear Data Base"):
         clear_database() 
 
-    
-
 def add_security(ticker,name,price):
     with open ("portfolio.csv", "a",newline='') as file:
         writer = csv.writer(file)
         writer.writerow([ticker,name,price])
-    return f"{ticker} is for {name} at {price}"
 
 def clear_database():
     f = open("portfolio.csv","w")
@@ -122,12 +115,6 @@ def fs_display(tick):
         st.line_chart(data=global_financials,use_container_width=1)
     except:
         KeyError(st.write("No data available"))
-
-
-#raw functions for test
-
-def main_raw(tick="AAPL"):
-    return yf.Ticker(tick).info["longName"]
 
 if __name__ == "__main__":
     main()
